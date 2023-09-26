@@ -1,0 +1,6 @@
+<launch>
+	<param name="ip" value="192.168.1.100" type="str"/>
+	<node pkg="jaka_driver" type="jaka_driver" name="jaka_driver" output="screen" launch-prefix="gnome-terminal --window --"/>
+	<node pkg="jaka_driver" type="pixel2base.py" name="object_detection" output="screen" launch-prefix="gnome-terminal --window --"/>  
+	<node pkg="jaka_driver" type="my_demo" name="my_demo" output="screen" launch-prefix="gnome-terminal --window --"/>
+</launch>
