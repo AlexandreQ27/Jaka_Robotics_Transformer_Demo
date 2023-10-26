@@ -7,12 +7,29 @@ from geometry_msgs.msg import Point
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from jaka_msgs.srv import GetObjPos,GetObjPosResponse
-data = [ -0.726514 ,-0.410664,  0.550938,  -560.516,
-0.0216993 , 0.787659 , 0.615729 , -418.691,
--0.686809 ,  0.45929, -0.563334 ,  578.394,
-        0     ,    0    ,     0     ,    1
+data = [ 0.996836 ,-0.0550892 ,-0.0572993 ,  30.01485,
+ 0.0143201 ,  -0.58461  , 0.811188  , -938.106,
+-0.0781854 , -0.809442 , -0.581972   , 459.888,
+         0  ,        0     ,     0      ,    1
 ]  
-
+#-9.50506
+#data = [  0.997115, -0.0552664 ,-0.0520413 ,  25.01485,
+# 0.0100422 , -0.583489  , 0.812059,   -931.128,
+#-0.0752451 , -0.810238  , -0.58125 ,   462.138,
+#         0   ,       0  ,        0    ,      1
+#]
+camera_matrix=np.array([[607.2513784473566, 0, 312.0057806991867],
+ [0, 607.5275453454146, 238.6361143847473],
+ [0, 0, 1]])
+dist_coeff=np.float32([-0.02220346593665167,
+ 1.294554632487039,
+ 0.006218227086377285,
+ -0.009092912927694383,
+ -4.902303897433339])
+ 
+ # 已经有的相机矩阵和畸变系数  
+#camera_matrix = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])  
+#dist_coefs = np.array([k1, k2, p1, p2, k3])  
 #axis: -0.118479   0.93741  0.327451
 
 object_position = Point()
@@ -21,8 +38,8 @@ matrix = np.array(data).reshape((4, 4))
 
 
 
-ball_color = 'blue'
-color_dist = {'red': {'Lower': np.array([0, 60, 60]), 'Upper': np.array([6, 255, 255])},
+ball_color = 'red'
+color_dist = {'red': {'Lower': np.array([0, 60, 60]), 'Upper': np.array([10, 255, 255])},
               'blue': {'Lower': np.array([100, 80, 46]), 'Upper': np.array([124, 255, 255])},
               'green': {'Lower': np.array([35, 50, 50]), 'Upper': np.array([80, 255, 255])},
               }
@@ -70,7 +87,11 @@ def main():
             continue
 
         # 将图像帧转换为OpenCV格式
-        color_image = np.asanyarray(color_frame.get_data())
+        distorted_image = np.asanyarray(color_frame.get_data())
+        #camera_matrix_umat = cv2.UMat(camera_matrix)
+        #dist_coeff_umat = cv2.UMat(dist_coeff)
+        color_image = cv2.undistort(distorted_image, camera_matrix, dist_coeff)
+        #color_image=distorted_image
 
         # 对图像进行处理
         gs_frame = cv2.GaussianBlur(color_image, (5, 5), 0)

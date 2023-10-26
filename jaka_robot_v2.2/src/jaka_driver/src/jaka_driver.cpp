@@ -83,9 +83,12 @@ bool linear_move_callback(jaka_msgs::Move::Request &request,
     end_pose.tran.x = request.pose[0];
     end_pose.tran.y = request.pose[1];
     end_pose.tran.z = request.pose[2];
-    Eigen::Vector3d Angaxis = {request.pose[3],request.pose[4],request.pose[5]};
-    RotMatrix Rot = Angaxis2Rot(Angaxis);
-    robot.rot_matrix_to_rpy(&Rot, &(end_pose.rpy));
+    end_pose.rpy.rx = request.pose[3];
+    end_pose.rpy.ry = request.pose[4];
+    end_pose.rpy.rz = request.pose[5];
+    //Eigen::Vector3d Angaxis = {request.pose[3],request.pose[4],request.pose[5]};
+    //RotMatrix Rot = Angaxis2Rot(Angaxis);
+    //robot.rot_matrix_to_rpy(&Rot, &(end_pose.rpy));
     
     // Eigen::AngleAxisd rotation_vector(Angaxis.norm(), Angaxis.normalized());
     // auto rpy = rotation_vector.matrix().eulerAngles(0, 1, 2);
@@ -93,7 +96,7 @@ bool linear_move_callback(jaka_msgs::Move::Request &request,
     // end_pose.rpy.ry = rpy.y();
     // end_pose.rpy.rz = rpy.z();
     
-    int ret = robot.linear_move(&end_pose, MoveMode::ABS, TRUE, speed, accel, tol, option_cond);
+    int ret = robot.linear_move(&end_pose, MoveMode::ABS, FALSE, speed, accel, tol, option_cond);
     switch(ret)
     {
         case 0:
@@ -734,6 +737,11 @@ void tool_point_callback(ros::Publisher tool_point_pub)
     tool_point.pose.orientation.x = (tcp_pos.rpy.rx )/PI*180;
     tool_point.pose.orientation.y = (tcp_pos.rpy.ry )/PI*180;
     tool_point.pose.orientation.z = (tcp_pos.rpy.rz )/PI*180;
+    
+    //tool_point.pose.orientation.x = (tcp_pos.rpy.rx );
+    //tool_point.pose.orientation.y = (tcp_pos.rpy.ry );
+    //tool_point.pose.orientation.z = (tcp_pos.rpy.rz );
+
 
     
     tool_point.header.stamp = ros::Time::now();
