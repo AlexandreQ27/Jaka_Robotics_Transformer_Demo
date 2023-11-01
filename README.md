@@ -21,8 +21,8 @@ Make the above configuration take effect on the current terminal：
 ```bash
 source ~/.bashrc
 ```
-### 2.Perform your own hand-eye calibration（进行自己的手眼标定）
-### 3.Run
+### 3.Perform your own hand-eye calibration（进行自己的手眼标定）
+### 4.Run
 ```bash
    roslaunch jaka_driver my_demo.launch
 ```
