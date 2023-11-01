@@ -28,7 +28,7 @@ class RealSenseCamera:
         config = rs.config()
         config.enable_device(str(self.device_id))
         config.enable_stream(rs.stream.depth, self.width, self.height, rs.format.z16, self.fps)
-        config.enable_stream(rs.stream.color, self.width, self.height, rs.format.bgr8, self.fps)
+        config.enable_stream(rs.stream.color, self.width, self.height, rs.format.rgb8, self.fps)
         cfg = self.pipeline.start(config)
 
         # Determine intrinsics

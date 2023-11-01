@@ -54,71 +54,84 @@ int main(int argc, char *argv[])
     jaka_msgs::GetObjPos obj_pose;
     jaka_msgs::SetIO set_io;
     obj_pose.request.get=true;
-    for (int i = 0; i < 10; i++)
+    float obj_pos_x,obj_pos_y;
+    for(int i=0;i<5;i++)
     {
-        object_position_client.call(obj_pose);
-        cout << "The return value of calling obj_pose:" << obj_pose.response.x << "  ";
-        cout << obj_pose.response.message << endl;
-    }
-    float start_pose[6] = {14.0, -434.0, 50.0, -150.0/180.0*PI, 30.0/180.0*PI, 150.0/180.0*PI};
-    //float pose[6] = {111.126,282.111,271.55,3.142,0,-0.698};
-    for (int i =0; i < 6; i++)
-    {
-        linear_move_pose_start.request.pose.push_back(start_pose[i]);
-    } 
-    linear_move_pose_start.request.has_ref=false;
-    linear_move_pose_start.request.ref_joint={0};
-    linear_move_pose_start.request.mvvelo=100;
-    linear_move_pose_start.request.mvacc=100;
-    linear_move_pose_start.request.mvtime=0.0;
-    linear_move_pose_start.request.mvradii=0.0;
-    linear_move_pose_start.request.coord_mode=0;
-    linear_move_pose_start.request.index=0;
-    cout << linear_move_pose_start.request;
-    for (int i = 0; i < 100; i++)
-    {
-        linear_move_client.call(linear_move_pose_start);
-        cout << "The return value of calling linear_move:" << linear_move_pose_start.response.ret << "  ";
-        cout << linear_move_pose_start.response.message << endl;
-    }
-    set_io.request.signal="digital";
-    set_io.request.type=0;
-    set_io.request.value=true;
-    set_io.request.index=2;
-    for (int i = 0; i < 10; i++)
-    {
-        set_io_client.call(set_io);
-        cout << "The return value of calling set_io:"<< set_io.response.message << endl;
-    }
-    float end_pose[6] = {34.0, -414.0, 200.0, -150.0/180.0*PI, 30.0/180.0*PI, 150.0/180.0*PI};
-    //float pose[6] = {111.126,282.111,271.55,3.142,0,-0.698};
-    for (int i =0; i < 6; i++)
-    {
-        linear_move_pose_end.request.pose.push_back(end_pose[i]);
-    } 
-    linear_move_pose_end.request.has_ref=false;
-    linear_move_pose_end.request.ref_joint={0};
-    linear_move_pose_end.request.mvvelo=100;
-    linear_move_pose_end.request.mvacc=100;
-    linear_move_pose_end.request.mvtime=0.0;
-    linear_move_pose_end.request.mvradii=0.0;
-    linear_move_pose_end.request.coord_mode=0;
-    linear_move_pose_end.request.index=0;
-    cout << linear_move_pose_end.request;
-    for (int i = 0; i < 100; i++)
-    {
-        linear_move_client.call(linear_move_pose_end);
-        cout << "The return value of calling linear_move:" << linear_move_pose_end.response.ret << "  ";
-        cout << linear_move_pose_end.response.message << endl;
-    }
-    set_io.request.signal="digital";
-    set_io.request.type=0;
-    set_io.request.value=false;
-    set_io.request.index=2;
-    for (int i = 0; i < 10; i++)
-    {
-        set_io_client.call(set_io);
-        cout << "The return value of calling set_io:"<< set_io.response.message << endl;
+        for (int i = 0; i < 50; i++)
+        {
+            object_position_client.call(obj_pose);
+            cout << "The return value of calling obj_pose:" << obj_pose.response.x << "  ";
+            obj_pos_x=obj_pose.response.x;
+            obj_pos_y=obj_pose.response.y;
+            cout << obj_pose.response.message << endl;
+        }
+        cout<<obj_pos_x<<endl;
+        cout<<obj_pos_y<<endl;
+        int confirm;
+        cout<<"confirm end point"<<endl;
+        cin>>confirm;
+        if(confirm!=1)
+            continue;
+        float start_pose[6] = {obj_pos_x, obj_pos_y, -0.0, -150.0/180.0*PI, 30.0/180.0*PI, 150.0/180.0*PI};
+        //float pose[6] = {111.126,282.111,271.55,3.142,0,-0.698};
+        for (int i =0; i < 6; i++)
+        {
+            linear_move_pose_start.request.pose.push_back(start_pose[i]);
+        } 
+        linear_move_pose_start.request.has_ref=false;
+        linear_move_pose_start.request.ref_joint={0};
+        linear_move_pose_start.request.mvvelo=100;
+        linear_move_pose_start.request.mvacc=100;
+        linear_move_pose_start.request.mvtime=0.0;
+        linear_move_pose_start.request.mvradii=0.0;
+        linear_move_pose_start.request.coord_mode=0;
+        linear_move_pose_start.request.index=0;
+        cout << linear_move_pose_start.request;
+        for (int i = 0; i < 200; i++)
+        {
+            linear_move_client.call(linear_move_pose_start);
+            cout << "The return value of calling linear_move:" << linear_move_pose_start.response.ret << "  ";
+            cout << linear_move_pose_start.response.message << endl;
+        }
+        set_io.request.signal="digital";
+        set_io.request.type=0;
+        set_io.request.value=true;
+        set_io.request.index=2;
+        for (int i = 0; i < 10; i++)
+        {
+            set_io_client.call(set_io);
+            cout << "The return value of calling set_io:"<< set_io.response.message << endl;
+        }
+        float end_pose[6] = {34.0, -414.0, 200.0, -150.0/180.0*PI, 30.0/180.0*PI, 150.0/180.0*PI};
+        //float pose[6] = {111.126,282.111,271.55,3.142,0,-0.698};
+        for (int i =0; i < 6; i++)
+        {
+            linear_move_pose_end.request.pose.push_back(end_pose[i]);
+        } 
+        linear_move_pose_end.request.has_ref=false;
+        linear_move_pose_end.request.ref_joint={0};
+        linear_move_pose_end.request.mvvelo=100;
+        linear_move_pose_end.request.mvacc=100;
+        linear_move_pose_end.request.mvtime=0.0;
+        linear_move_pose_end.request.mvradii=0.0;
+        linear_move_pose_end.request.coord_mode=0;
+        linear_move_pose_end.request.index=0;
+        cout << linear_move_pose_end.request;
+        for (int i = 0; i < 100; i++)
+        {
+            linear_move_client.call(linear_move_pose_end);
+            cout << "The return value of calling linear_move:" << linear_move_pose_end.response.ret << "  ";
+            cout << linear_move_pose_end.response.message << endl;
+        }
+        set_io.request.signal="digital";
+        set_io.request.type=0;
+        set_io.request.value=false;
+        set_io.request.index=2;
+        for (int i = 0; i < 10; i++)
+        {
+            set_io_client.call(set_io);
+            cout << "The return value of calling set_io:"<< set_io.response.message << endl;
+        }
     }
     ros::Duration(1).sleep();
     return 0;

@@ -13,6 +13,8 @@ from hardware.device import get_device
 from inference.post_process import post_process_output
 from utils.data.camera_data import CameraData
 from utils.dataset_processing.grasp import detect_grasps
+from sklearn.preprocessing import MinMaxScaler
+
 saved_model_path='/home/qyb/jaka_robot_v2.2/src/jaka_driver/scripts/saved_data/cornell_rgbd_iou_0.96'
 cam_id=213522070067
 data = [ 0.996836 ,-0.0550892 ,-0.0572993 ,  30.01485,
@@ -99,6 +101,11 @@ def main():
             grasps = detect_grasps(q_img, ang_img, width_img)
             print(rgb_img.shape)
             rgb_img = np.transpose(rgb_img, (1, 2, 0))
+            rgb_img_copy=cv2.resize(rgb, (224, 224))
+            # rgb_img_copy=rgb_img.copy()
+            # rgb_img_copy=cv2.normalize(rgb_img, None, alpha = 0, beta = 255, norm_type = cv2.NORM_MINMAX, dtype = cv2.CV_32F)
+            #rgb_img_copy = MinMaxScaler(feature_range=(0, 255)).fit_transform(rgb_img)
+            print(rgb_img_copy)
             for g in grasps:
                 # point_1=g.as_gr.points[0]
                 # point_2=g.as_gr.points[1]
@@ -107,7 +114,7 @@ def main():
                 #print(g.center)
                 #pt1=int([g.as_gr.points[0][0],g.as_gr.points[0][1]]),pt2=int([g.as_gr.points[1][0],g.as_gr.points[1][1]])
                 #print(cam_data.top_left)
-                draw_0 = cv2.rectangle(rgb_img, pt1=[int(g.as_gr.points[4][0]),int(g.as_gr.points[4][1])],pt2=[int(g.as_gr.points[5][0]),int(g.as_gr.points[5][1])], color=(255, 0, 0), thickness=2)
+                draw_0 = cv2.rectangle(rgb_img_copy, pt1=[int(g.as_gr.points[4][0]),int(g.as_gr.points[4][1])],pt2=[int(g.as_gr.points[5][0]),int(g.as_gr.points[5][1])], color=(255, 0, 0), thickness=2)
                 pos_z = depth[grasps[0].center[0] + cam_data.top_left[0], grasps[0].center[1] + cam_data.top_left[1]] 
                 pos_x = np.multiply(grasps[0].center[1] + cam_data.top_left[1] - camera.intrinsics.ppx,
                             pos_z / camera.intrinsics.fx)
@@ -119,7 +126,6 @@ def main():
                 x_eye = pos_x*1000
                 y_eye = pos_y*1000
                 z_eye = pos_z*1000
-                print(x_eye[0])
                 # 目标在眼坐标系下的坐标 [x_eye, y_eye, z_eye]  
                 target_eye_coordinates = np.array([x_eye[0], y_eye[0], z_eye[0], 1]).reshape(4, 1)
                 # 计算手上的坐标  
@@ -133,9 +139,9 @@ def main():
                 print('{}:{}'.format('z', object_position.z))
                 #object_pub.publish(object_position)
             
-            cv2.imshow('camera', draw_0)
-            if cv2.waitKey(1) & 0xFF == 27 :
-                break 
+                cv2.imshow('camera', draw_0)
+                if cv2.waitKey(1) & 0xFF == 27 :
+                    break 
 
 
 if __name__ == '__main__':
