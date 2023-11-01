@@ -24,5 +24,5 @@ source ~/.bashrc
 ### 2.Run
 ```bash
    roslaunch jaka_driver my_demo.launch
-```bash
+```
 
