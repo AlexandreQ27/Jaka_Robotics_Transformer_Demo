@@ -3,7 +3,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV to 
 ## Getting Started
 ### 1.Create a ros workspace
 ### 2.Run
-'''bash
+```bash
    roslaunch jaka_driver my_demo.launch
-'''
+```
 
