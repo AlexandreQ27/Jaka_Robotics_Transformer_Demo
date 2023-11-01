@@ -28,4 +28,4 @@ source ~/.bashrc
 ```
 
 ## Acknowledgement
-reference code: 
+reference code: https://github.com/ZiqiChai/simplified_eye_hand_calibration
