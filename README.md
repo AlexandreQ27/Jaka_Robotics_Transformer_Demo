@@ -23,6 +23,13 @@ Make the above configuration take effect on the current terminal：
 source ~/.bashrc
 ```
 ### 3.Perform your own hand-eye calibration（进行自己的手眼标定）
+#### Input
+- image with chessboard
+- robot pose in txt file (xyz(mm),rpy(deg))
+
+#### Output
+- camera intrinsic parameters
+- eye hand transformations
 more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 
 ### 4.Run
