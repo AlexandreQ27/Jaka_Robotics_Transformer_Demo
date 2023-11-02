@@ -30,6 +30,7 @@ source ~/.bashrc
 #### Output
 - camera intrinsic parameters
 - eye hand transformations
+  
 more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 
 ### 4.Run
