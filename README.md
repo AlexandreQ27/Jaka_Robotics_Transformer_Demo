@@ -23,6 +23,8 @@ Make the above configuration take effect on the current terminal：
 source ~/.bashrc
 ```
 ### 3.Perform your own hand-eye calibration（进行自己的手眼标定）
+more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
+
 ### 4.Run
 ```bash
    roslaunch jaka_driver my_demo.launch
