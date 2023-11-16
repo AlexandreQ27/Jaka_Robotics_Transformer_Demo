@@ -1,0 +1,26 @@
+{
+  "citation": "@article{brohan2022rt,\n  title={Rt-1: Robotics transformer for real-world control at scale},\n  author={Brohan, Anthony and Brown, Noah and Carbajal, Justice and Chebotar, Yevgen and Dabis, Joseph and Finn, Chelsea and Gopalakrishnan, Keerthana and Hausman, Karol and Herzog, Alex and Hsu, Jasmine and others},\n  journal={arXiv preprint arXiv:2212.06817},\n  year={2022}\n}",
+  "description": "Table-top manipulation with 17 objects",
+  "fileFormat": "tfrecord",
+  "location": {
+    "urls": [
+      "https://ai.googleblog.com/2022/12/rt-1-robotics-transformer-for-real.html"
+    ]
+  },
+  "moduleName": "tensorflow_datasets.robotics.rtx.rtx",
+  "name": "robotics_fractal20220817_data_0.1.0_fractal20220817_data",
+  "releaseNotes": {
+    "0.1.0": "Initial release."
+  },
+  "splits": [
+    {
+      "filepathTemplate": "{DATASET}-{SPLIT}.{FILEFORMAT}-{SHARD_X_OF_Y}",
+      "name": "train",
+      "numBytes": "119258547932",
+      "shardLengths": [
+        "80"
+      ]
+    }
+  ],
+  "version": "0.1.0"
+}
