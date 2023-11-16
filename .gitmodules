@@ -1,3 +1,6 @@
 [submodule "rt-x"]
 	path = rt-x
 	url = git@github.com:AlexandreQ27/RT-X-Demo.git
+[submodule "RT-1/tensor2robot"]
+	path = RT-1/tensor2robot
+	url = https://github.com/google-research/tensor2robot.git
