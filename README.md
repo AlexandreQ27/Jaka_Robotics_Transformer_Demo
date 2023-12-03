@@ -6,12 +6,12 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 - 1.使用传统抓取方法获得抓取数据
 
 已完成：
-1.机械臂网段设置，路由器设置，机械臂网络连接
-2.机械臂APP基础运动控制（关节，移动）
-3.机械臂python接口调用
-4.机械臂ROS接口调用
-5.外置机械臂夹爪IO连接及python调用
-6.外置夹爪攻击标定，融合ROS返回TCP坐标信息
+1.机械臂网段设置，路由器设置，机械臂网络连接 \
+2.机械臂APP基础运动控制（关节，移动）\
+3.机械臂python接口调用 \
+4.机械臂ROS接口调用 \
+5.外置机械臂夹爪IO连接及python调用 \
+6.外置夹爪攻击标定，融合ROS返回TCP坐标信息 \
 7.机械臂ROS，Moveit联合调用，rviz仿真环境运动
 8.基础HSV物块识别代码编写
 9.识别代码ROS融合，创建新service，传递识别信息
