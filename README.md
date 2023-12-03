@@ -20,7 +20,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 12.抓取逻辑代码编写 \
 13.现有识别的基础上加入深度学习神经网络GRCNN分割识别 \
 14.GRCNN分割代码ROS融合 \
-15.加入undistortion代码，修正图像误差 \
+15.加入undistortion代码，修正图像误差 
 
 待完成：
 1.数据采集代码修改
@@ -36,7 +36,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 5.RT-X docker打包image \
 6.RT-X导入自己数据图片进行推理 \
 7.加入USE词嵌入模型，对自定义语句进行词嵌入 \
-8.自定义图片融合语义信息进行推理 \
+8.自定义图片融合语义信息进行推理 
 
 - 3.使用llama微调输出指令，对robotics-transforme进行控制
 
