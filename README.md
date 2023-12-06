@@ -79,3 +79,6 @@ more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 
 ## Acknowledgement
 reference code: https://github.com/ZiqiChai/simplified_eye_hand_calibration
+
+
+## Use a robotics transformer pre-trained model for inference（RT-X pre-trained model）
