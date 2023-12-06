@@ -78,7 +78,7 @@ more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 ```
 
 ## Use a robotics transformer pre-trained model for inference（使用RT-X预训练模型进行推理）（RT-X pre-trained model）
-### RUN
+### 1.Run
 
 **CLICK** [here](https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6) to see the step
 
