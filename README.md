@@ -82,4 +82,4 @@ reference code: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 
 
 ## Use a robotics transformer pre-trained model for inference（RT-X pre-trained model）
-**CLICK** [here]([https://storage.googleapis.com/gresearch/robotics/open_x_embodiment_and_rt_x_oss/rt_1_x_tf_trained_for_002272480_step.zip](https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6)https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6) to see the step
+**CLICK** [here](https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6) to see the step
