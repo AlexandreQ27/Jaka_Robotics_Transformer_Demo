@@ -7,7 +7,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 
 ### 2.使用robotics-transformer进行自定义数据集训练实现抓取
 
-### 3.使用llama微调输出指令，对robotics-transformer进行控制
+### 3.使用llama微调输出指令，对robotics-transformer进行控制(not included here)
 
 ## General visual grasp(传统方法抓取，并储存训练需要的数据)(HSV or GRCNN)
 ### 1.Create a ros workspace
