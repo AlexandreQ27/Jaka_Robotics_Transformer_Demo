@@ -40,7 +40,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 
 ### 3.使用llama微调输出指令，对robotics-transforme进行控制
 
-## General visual grasp(传统方法抓取)(HSV or GRCNN)
+## General visual grasp(传统方法抓取，并储存训练需要的数据)(HSV or GRCNN)
 ### 1.Create a ros workspace
 Create workspace：
 ```bash
@@ -81,5 +81,5 @@ more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 reference code: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 
 
-## Use a robotics transformer pre-trained model for inference（RT-X pre-trained model）
+## Use a robotics transformer pre-trained model for inference（使用RT-X预训练模型进行推理）（RT-X pre-trained model）
 **CLICK** [here](https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6) to see the step
