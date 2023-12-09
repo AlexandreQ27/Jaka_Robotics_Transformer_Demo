@@ -1,4 +1,4 @@
-# Jaka_Demo
+# Jaka_Robotics_Transformer_Demo
 This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV or GRCNN) to grasp (eye out of hand).The project includes calculating hand-eye matrices, object recognition, and grasping codes include rt-x test.
 <img src="grasp.png" alt="jaka">
 <img src="rt-x.png" alt="rt-x">
