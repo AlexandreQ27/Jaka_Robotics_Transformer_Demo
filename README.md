@@ -52,6 +52,10 @@ more detail: https://github.com/ZiqiChai/simplified_eye_hand_calibration
 **CLICK** [here](https://github.com/AlexandreQ27/RT-X-Demo/tree/91c4622712b1ece0cc3290fcbb3f9d1481460da6) to see the step
 
 ## Train your own RT-1 model
+```bash
+   cd RT-1
+   python -m robotics_transformer.single_train_demo
+```
 
 ## Acknowledgement
 reference code: https://github.com/ZiqiChai/simplified_eye_hand_calibration
