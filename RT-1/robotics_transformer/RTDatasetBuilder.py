@@ -128,11 +128,13 @@ class RTDatasetBuilder(tfds.core.GeneratorBasedBuilder):
                     is_last=np.bool_(True)
                     is_terminal=np.bool_(True)
                     #reward=np.array([1.], dtype=np.float32)
+                    terminate_episode = np.array([1, 0, 0], dtype=np.int32)
                     reward=np.bool_(True)
                 else:
                     is_last=np.bool_(False)
                     is_terminal=np.bool_(False)
                     #reward=np.array([0.], dtype=np.float32)
+                    terminate_episode = np.array([0, 1, 0], dtype=np.int32)
                     reward=np.bool_(False)
                 #language_embedding = self._embed([decode_inst(np.array(step['instruction']))])[0].numpy()
                 img = Image.open(os.path.join(image_folder_path, image))
@@ -140,6 +142,7 @@ class RTDatasetBuilder(tfds.core.GeneratorBasedBuilder):
                 language_embedding = self._embed(language_instruction).numpy()
                 language_embedding=language_embedding.reshape(-1)
                 img_array = np.array(img)
+                #print('world_vector',np.float32(lines[i].split())[:3]/1000.)
                 episode.append({
                     'observation': {
                         'image': img_array,
@@ -148,8 +151,9 @@ class RTDatasetBuilder(tfds.core.GeneratorBasedBuilder):
                     },
                     'action': {
                         'world_vector': np.float32(lines[i].split())[:3]/1000.,
-                        'terminate_episode': np.array([0, 1, 0], dtype=np.int32),
+                        'terminate_episode': terminate_episode,
                         'rotation_delta': np.float32(lines[i].split())[3:]/180.0*np.pi,
+                        # need to save !!!!!!!!!!!!!!!!!!!!!!!!!!!!
                         'gripper_closedness_action': np.array([1.], dtype=np.float32)
                     },
                     'reward': reward,
