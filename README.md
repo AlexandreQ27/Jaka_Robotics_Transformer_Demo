@@ -6,7 +6,7 @@ This is a grasping project based on jaka robotic arm. We use ROS1 and OpenCV(HSV
 <img src="rt-x.png" alt="rt-x">
 
 ## 实验思路
-### 1.使用传统抓取方法获得抓取数据(finished)
+### 1.使用传统抓取方法或者手动操作方法获得抓取数据(finished)
 
 ### 2.使用robotics-transformer进行自定义数据集训练（finished）
 
