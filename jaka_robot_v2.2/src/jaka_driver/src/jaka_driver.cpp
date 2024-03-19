@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_msgs/Float32.h"
 #include "std_srvs/Empty.h"
 #include "std_srvs/SetBool.h"
 #include "geometry_msgs/TwistStamped.h"
@@ -11,6 +12,7 @@
 #include "Eigen/StdVector"
 
 #include "jaka_msgs/RobotMsg.h"
+#include "jaka_msgs/IOMsg.h"
 #include "jaka_msgs/Move.h"
 #include "jaka_msgs/ServoMoveEnable.h"
 #include "jaka_msgs/ServoMove.h"
@@ -70,6 +72,7 @@ ros::Publisher tool_position_pub ;
 ros::Publisher joint_position_pub ;
 ros::Publisher robot_state_pub;
 ros::Publisher tool_point_pub ;
+ros::Publisher gripper_pub;
 
 bool linear_move_callback(jaka_msgs::Move::Request &request,
                          jaka_msgs::Move::Response &response)
@@ -725,6 +728,35 @@ void tool_position_callback(ros::Publisher tool_position_pub)
 }
 
 //author:QIU
+void gripper_callback(ros::Publisher io_pub)
+{   
+    jaka_msgs::IOMsg io_data;
+    IOType type;
+    int ret;
+    BOOL digital_result;
+    float analog_result;
+    type = IO_CABINET;
+    float value;
+    string signal = "digital";
+    int index = 2;
+    //ret = robot.get_digital_input(type, index, &digital_result);
+    ret = robot.get_digital_output(type, index, &digital_result);
+    switch(ret)
+    {
+        case 0:
+            value = float(digital_result);
+            break;
+        default:
+            value = -999999;
+            ROS_ERROR("Error occurred: %s", mapErr[ret].c_str());
+    }
+    io_data.io_state = value;
+    io_data.header.stamp = ros::Time::now();
+    io_pub.publish(io_data);
+    
+}
+
+//author:QIU
 void tool_point_callback(ros::Publisher tool_point_pub)
 {
     geometry_msgs::PoseStamped  tool_point;
@@ -859,6 +891,7 @@ void* get_conn_scoket_state(void* args){
             joint_position_callback(joint_position_pub);
             robot_states_callback(robot_state_pub);
             tool_point_callback(tool_point_pub);
+            gripper_callback(gripper_pub);
         
         }
         ros::Duration(0.1).sleep(); 
@@ -873,7 +906,7 @@ int main(int argc, char *argv[])
     ros::NodeHandle nh;
     ros::Rate rate(125);
     // robot.login_in(argv[1]);
-    string default_ip = "10.5.5.100";
+    string default_ip = "192.168.1.101";
     string robot_ip = nh.param("ip", default_ip);
     robot.login_in(robot_ip.c_str());
     robot.set_status_data_update_time_interval(100);
@@ -925,11 +958,12 @@ int main(int argc, char *argv[])
    // ros::Publisher robot_state_pub = nh.advertise<jaka_msgs::RobotMsg>("/jaka_driver/robot_states", 10);
 
     //3.1 End position pose status information reporting
-   tool_position_pub = nh.advertise<geometry_msgs::TwistStamped>("/jaka_driver/tool_position", 10);
+    tool_position_pub = nh.advertise<geometry_msgs::TwistStamped>("/jaka_driver/tool_position", 10);
    
-   //author:QIU
-   tool_point_pub = nh.advertise<geometry_msgs::PoseStamped>("/jaka_driver/tool_point", 10);
+    //author:QIU
+    tool_point_pub = nh.advertise<geometry_msgs::PoseStamped>("/jaka_driver/tool_point", 10);
    
+    gripper_pub = nh.advertise<jaka_msgs::IOMsg>("/jaka_driver/gripper",10);
    
     //3.2 Joint status information reporting
     joint_position_pub = nh.advertise<sensor_msgs::JointState>("/jaka_driver/joint_position", 10);
