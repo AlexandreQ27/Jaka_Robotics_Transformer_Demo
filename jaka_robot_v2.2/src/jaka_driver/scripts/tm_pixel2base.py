@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 import rospy
 import cv2
+import os
 import numpy as np
 import pyrealsense2 as rs
 from geometry_msgs.msg import Point
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from jaka_msgs.srv import GetObjPos,GetObjPosResponse
+from geometry_msgs.msg import PoseStamped
 data = [0.986025 ,-0.0740463 ,  0.149235  , -118.962,
  -0.152792 , -0.758973 ,  0.632941  , -902.568,
  0.0663988  ,-0.646898 , -0.759681  ,  602.145,
@@ -31,9 +33,10 @@ dist_coeff=np.float32([-0.03319755171620913,
 #camera_matrix = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])  
 #dist_coefs = np.array([k1, k2, p1, p2, k3])  
 #axis: -0.118479   0.93741  0.327451
-
+bridge = CvBridge()
 object_position = Point()
-# 将数据转换为NumPy数组并塑造为4x4矩阵  
+# 定义保存彩色图像和深度图像的目录和文件名  
+color_dir = '/home/qyb/jaka_robot_v2.2/data/'  
 matrix = np.array(data).reshape((4, 4)) 
 
 # 创建一个相机实例
@@ -122,7 +125,57 @@ def object_service_callback(request):
         response.z = object_position.z 
         response.message = "{}Get obj pos has been executed".format(object_position.x);
     return response
-    
+# 定义保存彩色图像的函数  
+def save_image(msg, filename):  
+    try:  
+        cv_image = bridge.imgmsg_to_cv2(msg, "bgr8")  
+        cv2.imwrite(filename, cv_image)  
+    except CvBridgeError as e:  
+        print(e)  
+
+def save_pose_stamped(msg, filename):  
+    # 提取x, y, z数据  
+    x = msg.pose.position.x  
+    y = msg.pose.position.y  
+    z = msg.pose.position.z  
+    rx = msg.pose.orientation.x  
+    ry = msg.pose.orientation.y  
+    rz = msg.pose.orientation.z  
+    # 将数据写入文本文件  
+    with open(filename, 'a') as f:  
+        f.write(f'{x} {y} {z} {rx} {ry} {rz}\n')
+
+def rt_data_callback(msg):
+    has_saved_img=False
+    has_saved_pose=False
+    frames = pipeline.wait_for_frames()
+
+    # 获取彩色图像帧
+    color_frame = frames.get_color_frame()
+    if not color_frame:
+        return
+
+    # 将图像帧转换为OpenCV格式
+    distorted_image = np.asanyarray(color_frame.get_data())
+    # 获取文件夹中已有的文件列表  
+    files = os.listdir(color_dir)  
+    # 过滤出以 '.png' 结尾的文件，并按文件名中的数字排序  
+    png_files = sorted([file for file in files if file.endswith('.png')], key=lambda x: int(x.split('.')[0]))  
+    # 找到最大的文件编号  
+    max_file_number = int(png_files[-1].split('.')[0]) if png_files else -1 
+    # 新的文件编号  
+    new_file_number = max_file_number + 1   
+    color_filename = color_dir + '{}.png'.format(new_file_number) 
+    if not has_saved_img: 
+        cv2.imwrite(color_filename, distorted_image)
+        print("img have saved")
+        has_saved_img = True  
+    pose_filename = color_dir + 'pose.txt'
+    if not has_saved_pose:
+        save_pose_stamped(msg, pose_filename)  
+        print("pose have saved")
+        has_saved_pose = True    
+
 
 def pixel_to_camera(pixel_x, pixel_y, depth_value):
     # 将像素坐标转换为相机坐标
@@ -130,11 +183,16 @@ def pixel_to_camera(pixel_x, pixel_y, depth_value):
     return camera_point
 
 def main():
+    # 定义保存彩色图像和深度图像的目录和文件名  
+    if not os.path.exists(color_dir):  
+        os.makedirs(color_dir)  
     # 创建ROS节点和发布器
-    rospy.init_node('object_detection_node')
-    #object_pub = rospy.Publisher('/object_position', Point, queue_size=1)
+    # 将数据转换为NumPy数组并塑造为4x4矩阵  
+    rospy.init_node('object_detection_node',anonymous=True)
+    #rt_data_service = rospy.Service('/jaka_driver/camera_image',Image,rt_data_service_callback)  
+    rospy.Subscriber('/jaka_driver/tool_point', PoseStamped, rt_data_callback)
     object_service = rospy.Service('/get_object_position',GetObjPos,object_service_callback)  
-    bridge = CvBridge()
+    rate = rospy.Rate(10)
     rospy.spin()
 
 

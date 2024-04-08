@@ -1,0 +1,6 @@
+<launch>
+	<param name="ip_client" value="192.168.1.101" type="str"/>
+	<param name="ip_server" value="192.168.1.108" type="str"/>
+	<node pkg="jaka_driver" type="synchronization_client" name="synchronization_client" output="screen" launch-prefix="gnome-terminal --window --"/>
+	<node pkg="jaka_driver" type="synchronization_server" name="synchronization_server" output="screen" launch-prefix="gnome-terminal --window --"/>
+</launch>

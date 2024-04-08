@@ -154,6 +154,8 @@ add_executable(sdk_test src/sdk_test.cpp)
 add_executable(client src/client.cpp)
 add_executable(servoj_demo src/servoj_demo.cpp) 
 add_executable(my_demo src/my_demo.cpp) 
+add_executable(synchronization_client src/synchronization_client.cpp) 
+add_executable(synchronization_server src/synchronization_server.cpp) 
 # add_executable(${PROJECT_NAME} #可执行文件
 #                ${PROJECT_NAME}.cpp  
 #                src/jaka_driver)
@@ -173,6 +175,8 @@ add_dependencies(sdk_test ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_
 add_dependencies(client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(servoj_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(my_demo ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(synchronization_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(synchronization_client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 # add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}jaka_driver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
@@ -198,6 +202,14 @@ target_link_libraries(servoj_demo
   jakaAPI
 )
 target_link_libraries(my_demo
+  ${catkin_LIBRARIES}
+  jakaAPI
+)
+target_link_libraries(synchronization_server
+  ${catkin_LIBRARIES}
+  jakaAPI
+)
+target_link_libraries(synchronization_client
   ${catkin_LIBRARIES}
   jakaAPI
 )

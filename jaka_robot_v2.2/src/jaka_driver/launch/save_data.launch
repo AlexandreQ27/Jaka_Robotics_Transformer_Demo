@@ -1,0 +1,17 @@
+<launch>
+  <!-- JAKA Driver Start -->
+  <arg name="robot_ip" value="192.168.1.101"/>
+  <include file="$(find jaka_driver)/launch/robot_start_launch.launch">
+    <arg name="ip" value="$(arg robot_ip)"/>
+  </include>
+
+  <!-- Realsense Camera Launch -->
+  <group ns="realsense">
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch"/>
+  </group>
+
+  <!-- Run JAKA Driver Img Timestamp Test Script -->
+  <node pkg="jaka_driver" type="img_republisher.py" name="jaka_img_timestamp_test_node" output="screen"/>
+
+  <!-- Optionally, you might need to set up remappings for topics if there are namespace conflicts -->
+</launch>
